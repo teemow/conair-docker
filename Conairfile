@@ -18,4 +18,7 @@ ADD config/docker.service /etc/systemd/system
 ADD bin/conair-setup-environment /usr/local/bin/conair-setup-environment
 ADD config/conair-setup-environment.service /etc/systemd/system
 
-ENABLE docker conair-setup-environment sshd systemd-networkd-wait-online
+# cAdvisor
+ADD config/cadvisor.service /etc/systemd/system
+
+ENABLE docker conair-setup-environment sshd systemd-networkd-wait-online cadvisor
