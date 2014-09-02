@@ -8,7 +8,7 @@ TimeoutStartSec=0
 EnvironmentFile=/etc/environment
 Environment="IMAGE=google/cadvisor:latest"
 ExecStartPre=/bin/sh -c "docker rm -f %n || true"
-ExecStart=/usr/bin/docker run -v /var/run:/var/run:rw -v /sys:/sys:ro -v /var/lib/docker/:/var/lib/docker:ro -p 8082:8082 --name %n $IMAGE -port 8082
+ExecStart=/usr/bin/docker run -v /tmp:/tmp -v /var/run:/var/run:rw -v /sys:/sys:ro -v /var/lib/docker/:/var/lib/docker:ro -p 8082:8082 --name %n $IMAGE -port 8082
 ExecStop=-/usr/bin/docker kill %n
 
 Restart=always
