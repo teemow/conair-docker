@@ -1,7 +1,7 @@
 FROM base
 MAINTAINER Timo Derstappen <teemow@gmail.com>
 
-PKG sudo docker openssh nmap wget
+PKG docker openssh nmap wget sudo vim-minimal
 
 # add conair user
 RUN useradd -m -G wheel -s /bin/bash conair
@@ -9,7 +9,7 @@ RUN echo conair:conair | chpasswd
 RUN echo "%sudo ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/conair
 RUN echo "conair ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/conair
 
-# install docker service for kubernetes
+# install docker service 
 RUN getent group docker >/dev/null || groupadd -g 142 docker
 RUN usermod -aG docker conair
 ADD config/docker.service /etc/systemd/system
@@ -18,7 +18,4 @@ ADD config/docker.service /etc/systemd/system
 ADD bin/conair-setup-environment /usr/local/bin/conair-setup-environment
 ADD config/conair-setup-environment.service /etc/systemd/system
 
-# cAdvisor
-ADD config/cadvisor.service /etc/systemd/system
-
-ENABLE docker conair-setup-environment sshd systemd-networkd-wait-online cadvisor
+ENABLE docker conair-setup-environment sshd systemd-networkd-wait-online
