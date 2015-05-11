@@ -1,7 +1,7 @@
 FROM base
 MAINTAINER Timo Derstappen <teemow@gmail.com>
 
-PKG docker openssh nmap wget sudo vim-minimal
+PKG docker openssh nmap wget sudo 
 
 # add conair user
 RUN useradd -m -G wheel -s /bin/bash conair
@@ -12,10 +12,12 @@ RUN echo "conair ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/conair
 # install docker service 
 RUN getent group docker >/dev/null || groupadd -g 142 docker
 RUN usermod -aG docker conair
+ADD bin/remount-cgroups.sh /usr/bin/remount-cgroups.sh
+ADD config/remount-cgroups.service /etc/systemd/system
 ADD config/docker.service /etc/systemd/system
 
 # setup environment
 ADD bin/conair-setup-environment /usr/local/bin/conair-setup-environment
 ADD config/conair-setup-environment.service /etc/systemd/system
 
-ENABLE docker conair-setup-environment sshd systemd-networkd-wait-online
+ENABLE remount-cgroups docker conair-setup-environment sshd systemd-networkd-wait-online

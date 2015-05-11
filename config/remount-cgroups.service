@@ -1,0 +1,12 @@
+[Unit]
+Description=Remount Cgroups
+Before=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/remount-cgroups.sh
+
+[Install]
+WantedBy=multi-user.target
+
