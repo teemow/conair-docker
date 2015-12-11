@@ -20,4 +20,6 @@ ADD config/docker.service /etc/systemd/system
 ADD bin/conair-setup-environment /usr/local/bin/conair-setup-environment
 ADD config/conair-setup-environment.service /etc/systemd/system
 
+ADD config/nsswitch.conf /etc/nsswitch.conf
+
 ENABLE remount-cgroups docker conair-setup-environment sshd systemd-networkd-wait-online
